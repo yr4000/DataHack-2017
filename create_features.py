@@ -44,12 +44,15 @@ def calc_parabola_params(table):
     for i in range(len(table)):
         row = table.loc[i]
         S = calc_S(row)
-        current_params = np.polynomial.polynomial.polyfit([S[i] for i in range(len(S))],
-                                    [row["posZ_"+str(i)] for i in range(len(S))],2)
+        current_params = np.polyfit(S, [row["posZ_"+str(i)] for i in range(len(S))],2)
+        cur_f = np.multiply(current_params[0],(np.power(S,2))) + np.multiply(S,current_params[1]) + current_params[2]
+
         if(i%1000 == 0):
             plt.plot(S, [row["posZ_"+str(i)] for i in range(len(S))])
+            plt.plot(S, cur_f)
             plt.savefig("images/yair_" + str(i) + ".png")
             plt.clf()
+            print("iteration " + str(i))
         params[0][i], params[1][i], params[2][i] = current_params[0], current_params[1], current_params[2]
     return params
 
