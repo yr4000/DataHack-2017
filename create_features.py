@@ -64,21 +64,22 @@ def calc_parabola_params(table):
         res["parabola_parameter_c"] = params[2]
     return res
 
-def get_velocity_range(table):
+def get_feature_range(table,feature_name,feature_count):
     data = pd.DataFrame()
-    for i in range(30):
-        data["vel_magnitude_"+str(i)] = table["vel_magnitude_"+str(i)]
+    for i in range(feature_count+1):
+        data[feature_name+"_"+str(i)] = table["vel_magnitude_"+str(i)]
     data = data.transpose()
     max_vals = data.max()
     min_vals = data.min()
-    data["vel_range"] = data.max() - data.min()
-
-    return data.transpose()
+    res = pd.DataFrame(data.max() - data.min(),columns=["vel_mean"])
+    return res.transpose()
 
 
 if __name__ == "__main__":
     table = pd.read_csv("final_train_with names.csv")
-    get_velocity_range(table)
+    vel_range = get_feature_range(table,"vel_magnitude",29)
+    acc_range = get_feature_range(table,"accel",28)
+    
     parabola_params = calc_parabola_params(table)
     goes_up, goes_down = create_go_up_and_go_down(table)
     table["goes_up"] = goes_up
