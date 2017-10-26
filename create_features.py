@@ -67,11 +67,9 @@ def calc_parabola_params(table):
 def get_feature_range(table,feature_name,feature_count):
     data = pd.DataFrame()
     for i in range(feature_count+1):
-        data[feature_name+"_"+str(i)] = table["vel_magnitude_"+str(i)]
+        data[feature_name+"_"+str(i)] = table[feature_name+"_"+str(i)]
     data = data.transpose()
-    max_vals = data.max()
-    min_vals = data.min()
-    res = pd.DataFrame(data.max() - data.min(),columns=["vel_mean"])
+    res = pd.DataFrame(data.max() - data.min(),columns=[feature_name+"_mean"])
     return res.transpose()
 
 
