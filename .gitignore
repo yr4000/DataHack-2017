@@ -4,3 +4,5 @@
 DataHack-2017-master
 Usefull pandas functions.py
 *.json
+__pycache__/*
+.ipynb_checkpoints/*
